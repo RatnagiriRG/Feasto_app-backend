@@ -21,6 +21,9 @@ var userSchema = new mongoose.Schema(
       type: String,
       required: [true, "user password is required"],
     },
+    address: {
+      type: Array,
+    },
     usertype: {
       type: String,
       required: [true, "user type is requried"],
@@ -32,7 +35,7 @@ var userSchema = new mongoose.Schema(
       default: "https://cdn-icons-png.flaticon.com/512/17/17004.png",
     },
   },
-  { timestamps: true, }
+  { timestamps: true }
 );
 
 //Export the model

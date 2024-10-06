@@ -1,28 +1,40 @@
 const express = require("express");
-const colors = require("colors");
 const cors = require("cors");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
-const connectDB = require("./config/databaseConfig");
+const {connectDB} = require("./config/databaseConfig");
+const authRouter = require("./routes/authRoutes");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const { notFound, errorHandler } = require("./middlewares/errorHandler");
 
-//dot env configuration
+// Dotenv configuration
 dotenv.config();
 
 const app = express();
 
+// Connect to MongoDB
 connectDB();
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 // Routes
+app.use("/api/auth", authRouter);
+
 app.get("/api", (req, res) => {
   return res.status(200).send("Welcome to Feasto app");
 });
 
-const PORT = process.env.PORT || 5000;
+// Error handling middleware
+app.use(notFound);
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 3000; 
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
 });
