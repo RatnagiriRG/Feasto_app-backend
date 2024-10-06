@@ -10,6 +10,7 @@ exports.ERROR_RESPONSE = {
   AUTH_CLIENT: "You'r not a Client",
   AUTH_VENDOR: "You'r not a Vendor",
 
+
   //Auth
   USER_EXIST: "User Already Exist",
   USER_NOT_EXIST: "User Not Exist",
@@ -22,4 +23,5 @@ exports.RESPONSE_MESSAGE = {
   SUCCESS: "successfully",
   REGISTER_SUCCESS: "successfully register",
   LOGIN_SUCCESS: "successfully login",
+  
 };
