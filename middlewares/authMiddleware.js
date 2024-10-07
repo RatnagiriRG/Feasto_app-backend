@@ -25,8 +25,8 @@ exports.authMiddleware = asyncHandler(async (req, res, next) => {
 //isAdmin
 exports.isAdmin = asyncHandler(async (req, res, next) => {
   const { email } = req.user;
-  const adminUser = await User.findOne({ email });
-  if (adminUser.role !== "admin") {
+  const user = await User.findOne({ email });
+  if (user.usertype !== "admin") {
     throw new Error(ERROR_RESPONSE.AUTH_ADMIN);
   } else {
     next();
@@ -36,8 +36,8 @@ exports.isAdmin = asyncHandler(async (req, res, next) => {
 //isVendor
 exports.isVendor = asyncHandler(async (req, res, next) => {
   const { email } = req.user;
-  const adminUser = await User.findOne({ email });
-  if (adminUser.role !== "vendor") {
+  const user = await User.findOne({ email });
+  if (user.usertype !== "vendor") {
     throw new Error(ERROR_RESPONSE.AUTH_VENDOR);
   } else {
     next();
@@ -47,8 +47,8 @@ exports.isVendor = asyncHandler(async (req, res, next) => {
 //isDriver
 exports.isDriver = asyncHandler(async (req, res, next) => {
   const { email } = req.user;
-  const adminUser = await User.findOne({ email });
-  if (adminUser.role !== "driver") {
+  const user = await User.findOne({ email });
+  if (user.usertype !== "driver") {
     throw new Error(ERROR_RESPONSE.AUTH_DRIVER);
   } else {
     next();
@@ -58,11 +58,10 @@ exports.isDriver = asyncHandler(async (req, res, next) => {
 //isClient
 exports.isClient = asyncHandler(async (req, res, next) => {
   const { email } = req.user;
-  const adminUser = await User.findOne({ email });
-  if (adminUser.role !== "client") {
+  const user = await User.findOne({ email });
+  if (user.usertype !== "client") {
     throw new Error(ERROR_RESPONSE.AUTH_CLIENT);
   } else {
     next();
   }
 });
-
