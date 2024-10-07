@@ -43,6 +43,10 @@ var userSchema = new mongoose.Schema(
     passwordChangeAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date,
+    userDelflag: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

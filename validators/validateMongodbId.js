@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { ERROR_RESPONSE } = require("../config/responseMessage");
 
-const validateMongodbId = (id) => {
+exports. validateMongodbId = (id) => {
   console.log("Validating ID:", id);
   const isValid = mongoose.Types.ObjectId.isValid(id);
 
@@ -10,4 +10,4 @@ const validateMongodbId = (id) => {
   }
 };
 
-module.exports = validateMongodbId;
+

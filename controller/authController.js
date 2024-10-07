@@ -54,54 +54,7 @@ exports.authController = asyncHandler(async (req, res) => {
 });
 
 //Login
-exports.loginController = asyncHandler(async (req, res) => {
-  try {
-    const { email, password } = req.body;
 
-    const missingFields = validateInput({ email, password });
-    if (missingFields.length > 0) {
-      return res.status(400).json({
-        error: `${ERROR_RESPONSE.MISSING_FIELDS}${missingFields.join(", ")}`,
-      });
-    }
-
-    const user = await userModel.findOne({ email });
-    if (!user) {
-      return res.status(404).json({ error: ERROR_RESPONSE.USER_NOT_EXIST });
-    }
-
-    const isPasswordCorrect = await user.isPasswordMatched(password);
-    if (!isPasswordCorrect) {
-      return res.status(401).json({ error: ERROR_RESPONSE.INCORRECT_PASSWORD });
-    }
-
-    const refreshToken = generateRefreshToken(user._id);
-    await userModel.findByIdAndUpdate(
-      user._id,
-      { refreshToken },
-      { new: true }
-    );
-
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 72 * 60 * 60 * 1000,
-      sameSite: "strict",
-    });
-
-    res.status(200).json({
-      message: RESPONSE_MESSAGE.LOGIN_SUCCESS,
-      _id: user._id,
-      firstname: user.firstname,
-      lastname: user.lastname,
-      email: user.email,
-      mobile: user.mobile,
-      token: generateToken(user._id),
-    });
-  } catch (error) {
-    throw new Error(error);
-  }
-});
 
 //admin login
 exports.loginAdminController = asyncHandler(async (req, res) => {
@@ -109,7 +62,7 @@ exports.loginAdminController = asyncHandler(async (req, res) => {
   const findAdmin = await userModel.findOne({ email });
 
   if (findAdmin.usertype !== "admin") {
-    throw new Error("Not Authorized");
+    throw new Error(ERROR_RESPONSE.AUTH_ADMIN);
   }
 
   if (findAdmin && (await findAdmin.isPasswordMatched(password))) {
@@ -137,10 +90,11 @@ exports.loginAdminController = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(400);
-    throw new Error("Invalid Credentials");
+    throw new Error(ERROR_RESPONSE.CLIENT_ERROR);
   }
 });
 
+//handle refresh token
 exports.handleRefreshToken = asyncHandler(async (req, res) => {
   const cookie = req.cookies;
   console.log(cookie);
