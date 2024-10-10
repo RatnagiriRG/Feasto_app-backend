@@ -28,8 +28,8 @@ exports.clientloginController = asyncHandler(async (req, res) => {
     }
 
     if (user.userDelflag) {
-        return res.status(403).json({ error: ERROR_RESPONSE.USER_DELETED });
-      }
+      return res.status(403).json({ error: ERROR_RESPONSE.USER_DELETED });
+    }
 
     const isPasswordCorrect = await user.isPasswordMatched(password);
     if (!isPasswordCorrect) {
@@ -52,16 +52,52 @@ exports.clientloginController = asyncHandler(async (req, res) => {
 
     res.status(200).json({
       message: RESPONSE_MESSAGE.LOGIN_SUCCESS,
-      _id: user._id,
-      firstname: user.firstname,
-      lastname: user.lastname,
-      email: user.email,
-      mobile: user.mobile,
-      token: generateToken(user._id),
+      data: {
+        userId:user._id,
+        accessToken: generateToken(user._id),
+        refreshToken: generateRefreshToken(user._id),
+      },
     });
   } catch (error) {
     throw new Error(error);
   }
+});
+
+//access_token
+exports.clientRefreshTokenController = asyncHandler(async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+
+  if (!refreshToken) {
+    return res.status(401).json({ error: "No refresh token provided" });
+  }
+
+  const user = await userModel.findOne({ refreshToken });
+  if (!user) {
+    return res.status(403).json({ error: "Invalid refresh token" });
+  }
+
+  const accessToken = generateToken(user._id);
+  const newRefreshToken = generateRefreshToken(user._id);
+
+  await userModel.findByIdAndUpdate(
+    user._id,
+    { refreshToken: newRefreshToken },
+    { new: true }
+  );
+
+  // Set the new refresh token as an HTTP-only cookie
+  res.cookie("refreshToken", newRefreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 72 * 60 * 60 * 1000, // 72 hours
+    sameSite: "strict",
+  });
+
+  res.status(200).json({
+    message: "Tokens generated successfully",
+    accessToken: accessToken,
+    refreshToken: newRefreshToken,
+  });
 });
 
 //update client

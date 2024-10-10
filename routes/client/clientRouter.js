@@ -7,10 +7,12 @@ const {
   clientloginController,
   updateClientUser,
   updatePassword,
+  clientRefreshTokenController,
 } = require("../../controller/client/clientController");
 
 const router = express.Router();
 router.post("/login", clientloginController);
+router.post("/refresh-token",clientRefreshTokenController)
 
 //update
 router.put("/updateclient", authMiddleware, isClient, updateClientUser);
