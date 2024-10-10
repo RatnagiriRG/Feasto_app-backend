@@ -25,5 +25,6 @@ exports.RESPONSE_MESSAGE = {
   SUCCESS: "successfully",
   REGISTER_SUCCESS: "successfully register",
   LOGIN_SUCCESS: "successfully login",
-  
+  LOGOUT_SUCCESS: "successfully logout",
+  TOKEN_SUCCESS:"successfully token generated"
 };

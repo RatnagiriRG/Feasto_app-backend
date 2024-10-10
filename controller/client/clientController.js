@@ -53,7 +53,7 @@ exports.clientloginController = asyncHandler(async (req, res) => {
     res.status(200).json({
       message: RESPONSE_MESSAGE.LOGIN_SUCCESS,
       data: {
-        userId:user._id,
+        userId: user._id,
         accessToken: generateToken(user._id),
         refreshToken: generateRefreshToken(user._id),
       },
@@ -68,12 +68,12 @@ exports.clientRefreshTokenController = asyncHandler(async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
 
   if (!refreshToken) {
-    return res.status(401).json({ error: "No refresh token provided" });
+    return res.status(401).json({ error: ERROR_RESPONSE.AUTH_TOKEN_MISSING });
   }
 
   const user = await userModel.findOne({ refreshToken });
   if (!user) {
-    return res.status(403).json({ error: "Invalid refresh token" });
+    return res.status(403).json({ error: ERROR_RESPONSE.AUTH_TOKEN_INVALID });
   }
 
   const accessToken = generateToken(user._id);
@@ -94,7 +94,7 @@ exports.clientRefreshTokenController = asyncHandler(async (req, res) => {
   });
 
   res.status(200).json({
-    message: "Tokens generated successfully",
+    message: RESPONSE_MESSAGE.TOKEN_SUCCESS,
     accessToken: accessToken,
     refreshToken: newRefreshToken,
   });
@@ -165,5 +165,31 @@ exports.deleteUser = asyncHandler(async (req, res) => {
     res.json(deleteUser);
   } catch (error) {
     throw new Error(error);
+  }
+});
+
+//logout
+exports.logout = asyncHandler(async (req, res) => {
+  const cookie = req.cookies;
+
+  if (!cookie.refreshToken) {
+    return res.status(400).json({ error: ERROR_RESPONSE.AUTH_TOKEN_MISSING });
+  }
+
+  const refreshToken = cookie.refreshToken;
+  const user = await User.findOne({ refreshToken });
+
+  if (!user) {
+    res.clearCookie("refreshToken", { httpOnly: true, secure: true });
+    return res.status(202).json({ msg: RESPONSE_MESSAGE.LOGIN_SUCCESS });
+  } else {
+    await User.findOneAndUpdate(
+      { refreshToken },
+      {
+        refreshToken: "",
+      }
+    );
+    res.clearCookie("refreshToken", { httpOnly: true, secure: true });
+    return res.status(200).json({ msg: RESPONSE_MESSAGE.LOGOUT_SUCCESS });
   }
 });

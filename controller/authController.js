@@ -19,7 +19,6 @@ exports.authController = asyncHandler(async (req, res) => {
       password,
       phone,
       email,
-      address,
     });
 
     if (missingFields.length > 0) {
@@ -39,14 +38,17 @@ exports.authController = asyncHandler(async (req, res) => {
       name: username,
       email: email,
       phone: phone,
-
-      address: address,
       password: password,
     });
     if (user) {
-      return res
-        .status(201)
-        .json({ msg: RESPONSE_MESSAGE.REGISTER_SUCCESS, data: user });
+      return res.status(201).json({
+        msg: RESPONSE_MESSAGE.REGISTER_SUCCESS,
+        data: {
+          username: user.name,
+          email: user.email,
+          phone: user.phone,
+        },
+      });
     }
   } catch (error) {
     throw new Error(error);
@@ -54,7 +56,6 @@ exports.authController = asyncHandler(async (req, res) => {
 });
 
 //Login
-
 
 //admin login
 exports.loginAdminController = asyncHandler(async (req, res) => {
