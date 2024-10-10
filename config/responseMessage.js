@@ -25,4 +25,5 @@ exports.RESPONSE_MESSAGE = {
   SUCCESS: "successfully",
   REGISTER_SUCCESS: "successfully register",
   LOGIN_SUCCESS: "successfully login",
+  
 };
