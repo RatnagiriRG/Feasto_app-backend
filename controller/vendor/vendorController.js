@@ -11,7 +11,7 @@ const {
 const userModel = require("../../models/userModel");
 const { validateMongodbId } = require("../../validators/validateMongodbId");
 
-exports.clientloginController = asyncHandler(async (req, res) => {
+exports.vendorloginController = asyncHandler(async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -64,7 +64,7 @@ exports.clientloginController = asyncHandler(async (req, res) => {
 });
 
 //access_token
-exports.clientRefreshTokenController = asyncHandler(async (req, res) => {
+exports.vendorRefreshTokenController = asyncHandler(async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
 
   if (!refreshToken) {
@@ -101,7 +101,7 @@ exports.clientRefreshTokenController = asyncHandler(async (req, res) => {
 });
 
 //update client
-exports.updateClientUser = asyncHandler(async (req, res) => {
+exports.updateVendorUser = asyncHandler(async (req, res) => {
   try {
     const { id, username, address, phone } = req.body;
     validateMongodbId(id);
@@ -128,7 +128,7 @@ exports.updateClientUser = asyncHandler(async (req, res) => {
 });
 
 //update password//updatePassword
-exports.updateClientPassword = asyncHandler(async (req, res) => {
+exports.updateVendorPassword = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   const { password } = req.body;
   validateMongodbId(_id);
@@ -144,7 +144,7 @@ exports.updateClientPassword = asyncHandler(async (req, res) => {
 });
 
 //delete account
-exports.deleteClientUser = asyncHandler(async (req, res) => {
+exports.deleteVendorUser = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   validateMongodbId(_id);
   try {
@@ -169,7 +169,8 @@ exports.deleteClientUser = asyncHandler(async (req, res) => {
 });
 
 //logout
-exports.clientlogout = asyncHandler(async (req, res) => {
+
+exports.vendorLogout = asyncHandler(async (req, res) => {
   try {
     const { refreshToken } = req.cookies;
 

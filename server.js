@@ -8,7 +8,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const { notFound, errorHandler } = require("./middlewares/errorHandler");
 const clientRouter = require("./routes/client/clientRouter");
-
+const vendorRouter = require("./routes/vendor/vendorRoutes");
 // Dotenv configuration
 dotenv.config();
 
@@ -26,7 +26,11 @@ app.use(cookieParser());
 
 // Routes
 app.use("/api/auth", authRouter);
+//client
 app.use("/api/client", clientRouter);
+
+//vendor
+app.use("/api/vendor", vendorRouter);
 
 app.get("/api", (req, res) => {
   return res.status(200).send("Welcome to Feasto app");

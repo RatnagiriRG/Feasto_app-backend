@@ -6,17 +6,19 @@ const {
 const {
   clientloginController,
   updateClientUser,
-  updatePassword,
+  updateClientPassword,
   clientRefreshTokenController,
+  clientlogout,
+  deleteClientUser,
 } = require("../../controller/client/clientController");
 
 const router = express.Router();
 router.post("/login", clientloginController);
-router.post("/refresh-token",clientRefreshTokenController)
-
+router.post("/refresh-token", clientRefreshTokenController);
+router.post("/logout", authMiddleware, isClient, clientlogout);
+router.post("/delete_account", authMiddleware, isClient, deleteClientUser);
 //update
 router.put("/updateclient", authMiddleware, isClient, updateClientUser);
-router.patch("/updatepassword", authMiddleware, isClient, updatePassword);
-
+router.patch("/updatepassword", authMiddleware, isClient, updateClientPassword);
 
 module.exports = router;
