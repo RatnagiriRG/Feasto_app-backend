@@ -10,9 +10,11 @@ const {
   clientRefreshTokenController,
   clientlogout,
   deleteClientUser,
+  clientRegister,
 } = require("../../controller/client/clientController");
 
 const router = express.Router();
+router.post("/create_client", clientRegister);
 router.post("/login", clientloginController);
 router.post("/refresh-token", clientRefreshTokenController);
 router.post("/logout", authMiddleware, isClient, clientlogout);

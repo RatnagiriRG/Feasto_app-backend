@@ -11,6 +11,52 @@ const {
 const userModel = require("../../models/userModel");
 const { validateMongodbId } = require("../../validators/validateMongodbId");
 
+exports.clientRegister = asyncHandler(async (req, res) => {
+  try {
+    const { username, password, phone, email, address } = req.body;
+
+    const missingFields = validateInput({
+      username,
+      password,
+      phone,
+      email,
+    });
+
+    if (missingFields.length > 0) {
+      return res.status(400).json({
+        error: ERROR_RESPONSE.MISSING_FIELDS + missingFields.join(", "),
+      });
+    }
+
+    const existingUser = await userModel.findOne({ email: email });
+    if (existingUser) {
+      return res.status(400).json({
+        error: ERROR_RESPONSE.USER_EXIST,
+      });
+    }
+
+    const user = await userModel.create({
+      name: username,
+      email: email,
+      phone: phone,
+      password: password,
+      usertype: "client",
+    });
+    if (user) {
+      return res.status(201).json({
+        msg: RESPONSE_MESSAGE.REGISTER_SUCCESS,
+        data: {
+          username: user.name,
+          email: user.email,
+          phone: user.phone,
+        },
+      });
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
 exports.clientloginController = asyncHandler(async (req, res) => {
   try {
     const { email, password } = req.body;

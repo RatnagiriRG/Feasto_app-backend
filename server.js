@@ -3,12 +3,11 @@ const cors = require("cors");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
 const { connectDB } = require("./config/databaseConfig");
-const authRouter = require("./routes/authRoutes");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const { notFound, errorHandler } = require("./middlewares/errorHandler");
-const clientRouter = require("./routes/client/clientRouter");
-const vendorRouter = require("./routes/vendor/vendorRoutes");
+const { setupRoutes } = require("./routes");
+
 // Dotenv configuration
 dotenv.config();
 
@@ -23,14 +22,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
-// Routes
-app.use("/api/auth", authRouter);
-//client
-app.use("/api/client", clientRouter);
-
-//vendor
-app.use("/api/vendor", vendorRouter);
+setupRoutes(app);
 
 app.get("/api", (req, res) => {
   return res.status(200).send("Welcome to Feasto app");

@@ -17,6 +17,9 @@ exports.ERROR_RESPONSE = {
   USER_NOT_EXIST: "User Not Exist",
   USER_DELETED: "This user has been deleted.",
   INCORRECT_PASSWORD: "Incorrect password",
+
+  //Resturant
+  CREATE_RESTURANT_ERROR: "Error in create_resturant API",
 };
 
 //response_message
@@ -26,5 +29,8 @@ exports.RESPONSE_MESSAGE = {
   REGISTER_SUCCESS: "successfully register",
   LOGIN_SUCCESS: "successfully login",
   LOGOUT_SUCCESS: "successfully logout",
-  TOKEN_SUCCESS:"successfully token generated"
+  TOKEN_SUCCESS: "successfully token generated",
+
+  //Resturant
+  RESTURANT_CREATE_SUCCESS: "successfully created resturant",
 };
