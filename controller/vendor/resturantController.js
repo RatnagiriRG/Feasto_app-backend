@@ -53,12 +53,24 @@ exports.createVendorResturant = asyncHandler(async (req, res) => {
 
     res.status(200).json({ msg: RESPONSE_MESSAGE.RESTURANT_CREATE_SUCCESS });
   } catch (error) {
-    console.error(error); 
+    console.error(error);
     res.status(500).json({
       error: ERROR_RESPONSE.CREATE_RESTURANT_ERROR,
     });
   }
 });
-
-
+exports.vendorGetAllResturant = asyncHandler(async (req, res) => {
+  try {
+    const { _id } = req.user;
+    validateMongodbId(_id);
+    const resturants = await ResturantModel.find({ vendorId: _id });
+    if (resturants.length === 0) {
+      return res.status(404).json({ error: ERROR_RESPONSE.NO_RESTURANT });
+    }
+    res.status(200).json({ msg: RESPONSE_MESSAGE.SUCCESS, data: resturants });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: ERROR_RESPONSE.GET_ALL_RESTURANT });
+  }
+});
 

@@ -5,6 +5,7 @@ const {
 } = require("../../middlewares/authMiddleware");
 const {
   createVendorResturant,
+  vendorGetAllResturant,
 } = require("../../controller/vendor/resturantController");
 
 const router = express.Router();
@@ -14,6 +15,12 @@ router.post(
   authMiddleware,
   isVendor,
   createVendorResturant
+);
+router.get(
+  "/getall_resturant",
+  authMiddleware,
+  isVendor,
+  vendorGetAllResturant
 );
 
 module.exports = router;
