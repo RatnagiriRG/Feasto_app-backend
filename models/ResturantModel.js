@@ -3,6 +3,11 @@ const mongoose = require("mongoose"); // Erase if already required
 // Declare the Schema of the Mongo model
 var resturantSchema = new mongoose.Schema(
   {
+    vendorId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",  // Referencing the User model (for vendors)
+      required: [true, "Vendor ID required"],
+    },
     title: {
       type: String,
       required: [true, "Resturant title required"],

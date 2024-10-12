@@ -20,6 +20,9 @@ exports.ERROR_RESPONSE = {
 
   //Resturant
   CREATE_RESTURANT_ERROR: "Error in create_resturant API",
+  GET_ALL_RESTURANT: "Error while featching all resturants",
+  GET_RESTURANT: "Error while featching the resturant",
+  NO_RESTURANT: "No Reasturant found",
 };
 
 //response_message
