@@ -5,7 +5,7 @@ var resturantSchema = new mongoose.Schema(
   {
     vendorId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",  // Referencing the User model (for vendors)
+      ref: "User", 
       required: [true, "Vendor ID required"],
     },
     title: {
