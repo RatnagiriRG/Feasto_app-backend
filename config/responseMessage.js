@@ -36,4 +36,5 @@ exports.RESPONSE_MESSAGE = {
 
   //Resturant
   RESTURANT_CREATE_SUCCESS: "successfully created resturant",
+  RESTURANT_DELETE_SUCCESS: "successsfully deleted the resturant",
 };

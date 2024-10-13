@@ -5,7 +5,7 @@ var resturantSchema = new mongoose.Schema(
   {
     vendorId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User", 
+      ref: "User",
       required: [true, "Vendor ID required"],
     },
     title: {
@@ -69,6 +69,10 @@ var resturantSchema = new mongoose.Schema(
       title: {
         type: String,
       },
+    },
+    delfalg: {
+      type: Boolean,
+      default: false,
     },
   },
   {

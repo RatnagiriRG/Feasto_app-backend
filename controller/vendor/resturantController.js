@@ -59,6 +59,8 @@ exports.createVendorResturant = asyncHandler(async (req, res) => {
     });
   }
 });
+
+//get all resturants
 exports.vendorGetAllResturant = asyncHandler(async (req, res) => {
   try {
     const { _id } = req.user;
@@ -74,3 +76,36 @@ exports.vendorGetAllResturant = asyncHandler(async (req, res) => {
   }
 });
 
+//get single resturants
+exports.vendorGetResturants = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+    validateMongodbId(id);
+
+    const resturant = await ResturantModel.findById(id);
+    if (!resturant) {
+      return res.status(500).json({ error: ERROR_RESPONSE.NO_RESTURANT });
+    }
+    res.status(200).json({ msg: RESPONSE_MESSAGE.SUCCESS, data: resturant });
+  } catch (error) {
+    throw new Error(ERROR_RESPONSE.GET_RESTURANT);
+  }
+});
+
+//delete  account
+exports.vendorDeleteResturants = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+    validateMongodbId(id);
+    const resturant = await ResturantModel.findByIdAndUpdate(id, {
+      delfalg: true,
+    });
+
+    if (!resturant) {
+      return res.status(500).json({ error: ERROR_RESPONSE.NO_RESTURANT });
+    }
+    res.status(200).json({ msg: RESPONSE_MESSAGE.RESTURANT_DELETE_SUCCESS });
+  } catch (error) {
+    throw new Error(ERROR_RESPONSE.GET_RESTURANT);
+  }
+});
