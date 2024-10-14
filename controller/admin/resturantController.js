@@ -5,6 +5,7 @@ const {
 } = require("../../config/responseMessage");
 const ResturantModel = require("../../models/ResturantModel");
 const { validateMongodbId } = require("../../validators/validateMongodbId");
+const { compareSync } = require("bcrypt");
 
 exports.createAdminResturant = asyncHandler(async (req, res) => {
   try {
@@ -91,18 +92,30 @@ exports.adminGetResturants = asyncHandler(async (req, res) => {
     throw new Error(ERROR_RESPONSE.GET_RESTURANT);
   }
 });
-  
+
 //delete  account
 exports.adminDeleteResturants = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
     validateMongodbId(id);
+    const resturant = await ResturantModel.findByIdAndDelete(id);
+    if (!resturant) {
+      return res.status(500).json({ error: ERROR_RESPONSE.NO_RESTURANT });
+    }
+    res.status(200).json({ msg: RESPONSE_MESSAGE.RESTURANT_DELETE_SUCCESS });
+  } catch (error) {
+    throw new Error(ERROR_RESPONSE.GET_RESTURANT);
+  }
+});
+
+exports.adminDelflagResturant = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
     const resturant = await ResturantModel.findByIdAndUpdate(id, {
       delfalg: true,
     });
-
     if (!resturant) {
-      return res.status(500).json({ error: ERROR_RESPONSE.NO_RESTURANT });
+      return res.status(401).json({ error: ERROR_RESPONSE.NO_RESTURANT });
     }
     res.status(200).json({ msg: RESPONSE_MESSAGE.RESTURANT_DELETE_SUCCESS });
   } catch (error) {
