@@ -6,7 +6,7 @@ const {
 const ResturantModel = require("../../models/ResturantModel");
 const { validateMongodbId } = require("../../validators/validateMongodbId");
 
-exports.createVendorResturant = asyncHandler(async (req, res) => {
+exports.createAdminResturant = asyncHandler(async (req, res) => {
   try {
     const {
       title,
@@ -61,11 +61,11 @@ exports.createVendorResturant = asyncHandler(async (req, res) => {
 });
 
 //get all resturants
-exports.vendorGetAllResturant = asyncHandler(async (req, res) => {
+exports.adminGetAllResturant = asyncHandler(async (req, res) => {
   try {
     const { _id } = req.user;
     validateMongodbId(_id);
-    const resturants = await ResturantModel.find({ vendorId: _id });
+    const resturants = await ResturantModel.find();
     if (resturants.length === 0) {
       return res.status(404).json({ error: ERROR_RESPONSE.NO_RESTURANT });
     }
@@ -77,7 +77,7 @@ exports.vendorGetAllResturant = asyncHandler(async (req, res) => {
 });
 
 //get single resturants
-exports.vendorGetResturants = asyncHandler(async (req, res) => {
+exports.adminGetResturants = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
     validateMongodbId(id);
@@ -93,7 +93,7 @@ exports.vendorGetResturants = asyncHandler(async (req, res) => {
 });
   
 //delete  account
-exports.vendorDeleteResturants = asyncHandler(async (req, res) => {
+exports.adminDeleteResturants = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
     validateMongodbId(id);
