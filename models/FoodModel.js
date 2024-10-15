@@ -23,7 +23,7 @@ var foodSchema = new mongoose.Schema(
     foodTags: {
       type: String,
     },
-    Category: {
+    category: {
       type: String,
     },
     foodCategory: {

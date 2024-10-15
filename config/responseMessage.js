@@ -27,6 +27,12 @@ exports.ERROR_RESPONSE = {
   //Category
   CATEGORY_ERROR: "Error in Category API",
   NO_CATEGORIES: "No Categories",
+
+  //Food
+  FOOD_ERROR: "Error in food API",
+  FOOD_CREATE: "Cant able to add food",
+  NO_FOOD: "No Food Found",
+
 };
 
 //response_message
@@ -45,4 +51,6 @@ exports.RESPONSE_MESSAGE = {
   //Category
   CATEGORY_CREATE_SUCCESS: "successfully created category",
   CATEGORY_UPDATE_SUCCESS: "successfully update category",
+
+  //Food
 };

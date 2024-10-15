@@ -9,6 +9,7 @@ const adminRouter = require("../routes/admin/adminRouter");
 const adminResturant = require("../routes/admin/resturantRouter");
 const adminCategory = require("../routes/admin/categoryRouter");
 const adminFoodCategoryRouter = require("../routes/admin/foodCategoryRouter");
+const adminFoodRouter = require("../routes/admin/foodRouter");
 
 exports.setupRoutes = (app) => {
   const _apiClient = "/api/client";
@@ -17,6 +18,7 @@ exports.setupRoutes = (app) => {
   const _resturant = "/resturant";
   const _category = "/category";
   const _foodCategory = "/foodCategory";
+  const _food = "/food";
 
   //client
   app.use(`${_apiClient}`, clientRouter);
@@ -31,4 +33,5 @@ exports.setupRoutes = (app) => {
   app.use(`${_apiAdmin}${_resturant}`, adminResturant);
   app.use(`${_apiAdmin}${_category}`, adminCategory);
   app.use(`${_apiAdmin}${_foodCategory}`, adminFoodCategoryRouter);
+  app.use(`${_apiAdmin}${_food}`, adminFoodRouter);
 };
