@@ -51,10 +51,14 @@ exports.adminUpdateFoodCategory = expressAsyncHandler(async (req, res) => {
     const { title, imageUrl } = req.body;
 
     validateMongodbId(id);
-    const updateCategory = await FoodCategoryModel.findByIdAndUpdate(id, {
-      title: title,
-      imageUrl: imageUrl,
-    });
+    const updateCategory = await FoodCategoryModel.findByIdAndUpdate(
+      id,
+      {
+        title: title,
+        imageUrl: imageUrl,
+      },
+      { new: true }
+    );
     if (!updateCategory) {
       return res.status(401).json({ error: ERROR_RESPONSE.NO_CATEGORIES });
     }
