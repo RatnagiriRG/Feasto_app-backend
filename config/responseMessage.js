@@ -23,6 +23,10 @@ exports.ERROR_RESPONSE = {
   GET_ALL_RESTURANT: "Error while featching all resturants",
   GET_RESTURANT: "Error while featching the resturant",
   NO_RESTURANT: "No Reasturant found",
+
+  //Category
+  CATEGORY_ERROR: "Error in Category API",
+  NO_CATEGORIES: "No Categories",
 };
 
 //response_message
@@ -37,4 +41,8 @@ exports.RESPONSE_MESSAGE = {
   //Resturant
   RESTURANT_CREATE_SUCCESS: "successfully created resturant",
   RESTURANT_DELETE_SUCCESS: "successsfully deleted the resturant",
+
+  //Category
+  CATEGORY_CREATE_SUCCESS: "successfully created category",
+  CATEGORY_UPDATE_SUCCESS: "successfully update category",
 };

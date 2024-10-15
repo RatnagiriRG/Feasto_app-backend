@@ -7,6 +7,7 @@ const vendorResturantRouter = require("../routes/vendor/resturantRoutes");
 //admin
 const adminRouter = require("../routes/admin/adminRouter");
 const adminResturant = require("../routes/admin/resturantRouter");
+const adminCategory = require("../routes/admin/categoryRouter");
 
 exports.setupRoutes = (app) => {
   const _apiClient = "/api/client";
@@ -14,6 +15,7 @@ exports.setupRoutes = (app) => {
   const _apiAdmin = "/api/admin";
   const _resturant = "/resturant";
   const _category = "/category";
+
   //client
   app.use(`${_apiClient}`, clientRouter);
   app.use(`${_apiClient}${_resturant}`, clientResturant);
@@ -25,4 +27,5 @@ exports.setupRoutes = (app) => {
   //admin
   app.use(`${_apiAdmin}`, adminRouter);
   app.use(`${_apiAdmin}${_resturant}`, adminResturant);
+  app.use(`${_apiAdmin}${_category}`, adminCategory);
 };
