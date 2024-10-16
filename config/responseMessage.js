@@ -33,6 +33,9 @@ exports.ERROR_RESPONSE = {
   FOOD_CREATE: "Cant able to add food",
   NO_FOOD: "No Food Found",
 
+  //payment
+  PAYMENT_ERROR: "Error in Payment Api",
+  PAYMENT_ORDER: "Cant able to place order",
 };
 
 //response_message
@@ -52,5 +55,6 @@ exports.RESPONSE_MESSAGE = {
   CATEGORY_CREATE_SUCCESS: "successfully created category",
   CATEGORY_UPDATE_SUCCESS: "successfully update category",
 
-  //Food
+  //Payment
+  PAYEMENT_SUCCESS: "Successfully placed order",
 };

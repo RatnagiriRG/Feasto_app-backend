@@ -4,6 +4,8 @@ const {
   adminCreateFoodController,
   adminGetAllFood,
   adminGetFood,
+  adminUpdateFood,
+  adminDeleteFood,
 } = require("../../controller/admin/foodController");
 
 const router = express.Router();
@@ -15,6 +17,9 @@ router.get("/all_food", authMiddleware, isAdmin, adminGetAllFood);
 router.get("/getfood/:id", authMiddleware, isAdmin, adminGetFood);
 
 //put
+router.put("/update_food/:id", authMiddleware, isAdmin, adminUpdateFood);
 
+//delete
+router.delete("/delete_food/:id", authMiddleware, isAdmin, adminDeleteFood);
 
 module.exports = router;

@@ -1,6 +1,7 @@
 //client
 const clientRouter = require("../routes/client/clientRouter");
 const clientResturant = require("../routes/client/resturantRoutes");
+const clientOrderRouter = require("../routes/client/orderRouter");
 //vendor
 const vendorRouter = require("../routes/vendor/vendorRoutes");
 const vendorResturantRouter = require("../routes/vendor/resturantRoutes");
@@ -19,10 +20,12 @@ exports.setupRoutes = (app) => {
   const _category = "/category";
   const _foodCategory = "/foodCategory";
   const _food = "/food";
+  const _order = "/order";
 
   //client
   app.use(`${_apiClient}`, clientRouter);
   app.use(`${_apiClient}${_resturant}`, clientResturant);
+  app.use(`${_apiClient}${_order}`, clientOrderRouter);
 
   //vendor
   app.use(`${_apiVendor}`, vendorRouter);
