@@ -1,4 +1,6 @@
 const asyncHandler = require("express-async-handler");
+const mongoose = require("mongoose");
+
 const {
   ERROR_RESPONSE,
   RESPONSE_MESSAGE,
@@ -105,7 +107,7 @@ exports.adminRefreshTokenController = asyncHandler(async (req, res) => {
 //update admin
 exports.updateAdminUser = asyncHandler(async (req, res) => {
   try {
-    const { id, username, address, phone } = req.body;
+    const { id, username, address, phone, profile } = req.body;
     validateMongodbId(id);
     const user = await userModel.findById(id);
     if (!user) {
@@ -115,7 +117,7 @@ exports.updateAdminUser = asyncHandler(async (req, res) => {
     // Update user fields
     const updatedUser = await userModel.findByIdAndUpdate(
       id,
-      { username: username, address: address, phone: phone },
+      { username: username, address: address, phone: phone, profile: profile },
       { new: true }
     );
 
@@ -191,5 +193,58 @@ exports.adminlogout = asyncHandler(async (req, res) => {
     return res
       .status(500)
       .json({ error: `${ERROR_RESPONSE.SERVER_ERROR}: ${error.message}` });
+  }
+});
+
+exports.getAdmin = asyncHandler(async (req, res) => {
+  try {
+    const { _id } = req.user;
+    validateMongodbId(_id);
+
+    const admin = await userModel.aggregate([
+      {
+        $match: { _id: new mongoose.Types.ObjectId(_id) },
+      },
+      {
+        $project: {
+          password: 0,
+          refreshToken: 0,
+        },
+      },
+    ]);
+
+    if (!admin || admin.length === 0) {
+      return res.status(400).json({ error: ERROR_RESPONSE.ADMIN_NOT_EXIST });
+    }
+
+    res.status(200).json({ msg: RESPONSE_MESSAGE.SUCCESS, data: admin[0] });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: ERROR_RESPONSE.ADMIN_ERROR, details: error.message });
+  }
+});
+
+exports.getUsers = asyncHandler(async (req, res) => {
+  try {
+    const { user } = req.query;
+    const missingFields = validateInput({ user });
+    if (missingFields.length > 0) {
+      return res.status(400).json({
+        error: `${ERROR_RESPONSE.MISSING_FIELDS}${missingFields.join(", ")}`,
+      });
+    }
+    const getUser = await userModel.aggregate([
+      { $match: { usertype: user } }, 
+      { $project: { password: 0 } },  
+    ]);
+
+
+    if (!getUser) {
+      return res.status(400).json({ error: ERROR_RESPONSE.NO_DATA });
+    }
+    res.status(200).json({ msg: RESPONSE_MESSAGE.SUCCESS, data: getUser });
+  } catch (error) {
+    throw new Error(error);
   }
 });

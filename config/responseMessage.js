@@ -11,12 +11,15 @@ exports.ERROR_RESPONSE = {
   AUTH_DRIVER: "You'r not a Driver",
   AUTH_CLIENT: "You'r not a Client",
   AUTH_VENDOR: "You'r not a Vendor",
+  NO_DATA:"No Data",
 
   //Auth
   USER_EXIST: "User Already Exist",
   USER_NOT_EXIST: "User Not Exist",
   USER_DELETED: "This user has been deleted.",
   INCORRECT_PASSWORD: "Incorrect password",
+  ADMIN_NOT_EXIST:"No Admin found",
+  ADMIN_ERROR:"Error in Admin api",
 
   //Resturant
   CREATE_RESTURANT_ERROR: "Error in create_resturant API",
